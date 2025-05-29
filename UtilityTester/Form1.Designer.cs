@@ -34,19 +34,15 @@
             // centeredTextBox1
             // 
             this.centeredTextBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.centeredTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.centeredTextBox1.HorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.centeredTextBox1.Location = new System.Drawing.Point(80, 104);
+            this.centeredTextBox1.Location = new System.Drawing.Point(107, 113);
             this.centeredTextBox1.MaxLength = 32767;
             this.centeredTextBox1.Multiline = false;
             this.centeredTextBox1.Name = "centeredTextBox1";
             this.centeredTextBox1.PasswordChar = '\0';
-            this.centeredTextBox1.PlaceholderColor = System.Drawing.Color.Gray;
             this.centeredTextBox1.PlaceholderText = "";
             this.centeredTextBox1.ReadOnly = false;
-            this.centeredTextBox1.Size = new System.Drawing.Size(262, 88);
+            this.centeredTextBox1.Size = new System.Drawing.Size(293, 143);
             this.centeredTextBox1.TabIndex = 0;
-            this.centeredTextBox1.VerticalAlignment = YongUtility.Controls.CenteredTextBox.TextAlignment.Center;
             // 
             // Form1
             // 

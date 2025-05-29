@@ -14,6 +14,8 @@ namespace YongUtility.Controls
         private string placeholderText = string.Empty;
         private Color placeholderColor = Color.Gray;
         private bool isPlaceholderActive = false;
+        private BorderStyle borderStyle = BorderStyle.Fixed3D;
+        private bool isInitialized = false;
 
         public enum TextAlignment
         {
@@ -34,7 +36,7 @@ namespace YongUtility.Controls
             InitializeInnerTextBox();
             Size = new Size(200, 30);
             BackColor = SystemColors.Window;
-            BorderStyle = BorderStyle.Fixed3D;
+            isInitialized = true;
         }
 
         private void InitializeInnerTextBox()
@@ -87,6 +89,27 @@ namespace YongUtility.Controls
             }
         }
 
+        [Category("Appearance")]
+        [Description("컨트롤의 테두리 스타일을 설정합니다.")]
+        [DefaultValue(BorderStyle.Fixed3D)]
+        public new BorderStyle BorderStyle
+        {
+            get { return borderStyle; }
+            set
+            {
+                if (borderStyle != value)
+                {
+                    borderStyle = value;
+                    if (isInitialized)
+                    {
+                        UpdateTextBoxPosition();
+                        Invalidate();
+                        Update(); // 즉시 다시 그리기 강제
+                    }
+                }
+            }
+        }
+
         [Category("Behavior")]
         [Description("여러 줄 입력을 허용할지 설정합니다.")]
         public bool Multiline
@@ -106,6 +129,7 @@ namespace YongUtility.Controls
 
         [Category("Appearance")]
         [Description("텍스트의 세로 정렬을 설정합니다.")]
+        [DefaultValue(TextAlignment.Center)]
         public TextAlignment VerticalAlignment
         {
             get { return verticalAlignment; }
@@ -118,6 +142,7 @@ namespace YongUtility.Controls
 
         [Category("Appearance")]
         [Description("텍스트의 가로 정렬을 설정합니다.")]
+        [DefaultValue(HorizontalAlignment.Left)]
         public HorizontalAlignment HorizontalAlignment
         {
             get { return horizontalAlignment; }
@@ -182,6 +207,7 @@ namespace YongUtility.Controls
 
         [Category("Appearance")]
         [Description("플레이스홀더 텍스트의 색상을 설정합니다.")]
+        [DefaultValue(typeof(Color), "Gray")]
         public Color PlaceholderColor
         {
             get { return placeholderColor; }
@@ -225,15 +251,16 @@ namespace YongUtility.Controls
 
         private void UpdateTextBoxPosition()
         {
-            if (innerTextBox == null) return;
+            if (innerTextBox == null || !isInitialized) return;
 
-            int padding = 4;
-            int textBoxWidth = Width - (padding * 2);
+            // BorderStyle에 따른 패딩 계산
+            int padding = GetBorderPadding();
+            int textBoxWidth = Math.Max(1, Width - (padding * 2));
             int textBoxHeight;
 
             if (multiline)
             {
-                textBoxHeight = Height - (padding * 2);
+                textBoxHeight = Math.Max(1, Height - (padding * 2));
                 innerTextBox.Size = new Size(textBoxWidth, textBoxHeight);
                 innerTextBox.Location = new Point(padding, padding);
             }
@@ -256,17 +283,32 @@ namespace YongUtility.Controls
                         y = padding;
                         break;
                     case TextAlignment.Center:
-                        y = (Height - textBoxHeight) / 2;
+                        y = Math.Max(padding, (Height - textBoxHeight) / 2);
                         break;
                     case TextAlignment.Bottom:
-                        y = Height - textBoxHeight - padding;
+                        y = Math.Max(padding, Height - textBoxHeight - padding);
                         break;
                     default:
-                        y = (Height - textBoxHeight) / 2;
+                        y = Math.Max(padding, (Height - textBoxHeight) / 2);
                         break;
                 }
 
                 innerTextBox.Location = new Point(padding, y);
+            }
+        }
+
+        private int GetBorderPadding()
+        {
+            switch (borderStyle)
+            {
+                case BorderStyle.None:
+                    return 2;
+                case BorderStyle.FixedSingle:
+                    return 3;
+                case BorderStyle.Fixed3D:
+                    return 4;
+                default:
+                    return 2;
             }
         }
 
@@ -370,8 +412,33 @@ namespace YongUtility.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // 테두리 그리기
-            ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
+            // 배경 먼저 그리기
+            using (SolidBrush brush = new SolidBrush(BackColor))
+            {
+                e.Graphics.FillRectangle(brush, ClientRectangle);
+            }
+
+            // BorderStyle에 따른 테두리 그리기
+            switch (borderStyle)
+            {
+                case BorderStyle.None:
+                    // 테두리 없음
+                    break;
+                case BorderStyle.FixedSingle:
+                    // 단일 선 테두리
+                    using (Pen pen = new Pen(SystemColors.ControlDark))
+                    {
+                        Rectangle rect = new Rectangle(0, 0, Width - 1, Height - 1);
+                        e.Graphics.DrawRectangle(pen, rect);
+                    }
+                    break;
+                case BorderStyle.Fixed3D:
+                    // 3D 테두리
+                    ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
+                    break;
+            }
+
+            base.OnPaint(e);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -380,6 +447,26 @@ namespace YongUtility.Controls
             if (string.IsNullOrEmpty(Text) && !string.IsNullOrEmpty(placeholderText))
             {
                 ShowPlaceholder();
+            }
+            // 로드 후 다시 그리기
+            Invalidate();
+        }
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            // 핸들 생성 후 위치 업데이트
+            UpdateTextBoxPosition();
+            Invalidate();
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (Visible)
+            {
+                UpdateTextBoxPosition();
+                Invalidate();
             }
         }
 
