@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CenteredTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CenteredTextBox.Designer.cs">
+      <DependentUpon>CenteredTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RoundedButton.cs">
       <SubType>UserControl</SubType>
     </Compile>

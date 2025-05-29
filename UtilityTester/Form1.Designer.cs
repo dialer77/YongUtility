@@ -28,23 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.roundedButton1 = new YongUtility.Controls.RoundedButton();
+            this.centeredTextBox1 = new YongUtility.Controls.CenteredTextBox();
             this.SuspendLayout();
             // 
-            // roundedButton1
+            // centeredTextBox1
             // 
-            this.roundedButton1.BackColor = System.Drawing.Color.Transparent;
-            this.roundedButton1.BorderColor = System.Drawing.Color.Transparent;
-            this.roundedButton1.BorderRadius = 20;
-            this.roundedButton1.BorderWidth = 0;
-            this.roundedButton1.ButtonBackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.roundedButton1.HoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.roundedButton1.Location = new System.Drawing.Point(148, 127);
-            this.roundedButton1.Name = "roundedButton1";
-            this.roundedButton1.PressedColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(100)))), ((int)(((byte)(150)))));
-            this.roundedButton1.Size = new System.Drawing.Size(223, 230);
-            this.roundedButton1.TabIndex = 0;
-            this.roundedButton1.UseHoverEffect = true;
+            this.centeredTextBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.centeredTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.centeredTextBox1.HorizontalAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.centeredTextBox1.Location = new System.Drawing.Point(80, 104);
+            this.centeredTextBox1.MaxLength = 32767;
+            this.centeredTextBox1.Multiline = false;
+            this.centeredTextBox1.Name = "centeredTextBox1";
+            this.centeredTextBox1.PasswordChar = '\0';
+            this.centeredTextBox1.PlaceholderColor = System.Drawing.Color.Gray;
+            this.centeredTextBox1.PlaceholderText = "";
+            this.centeredTextBox1.ReadOnly = false;
+            this.centeredTextBox1.Size = new System.Drawing.Size(262, 88);
+            this.centeredTextBox1.TabIndex = 0;
+            this.centeredTextBox1.VerticalAlignment = YongUtility.Controls.CenteredTextBox.TextAlignment.Center;
             // 
             // Form1
             // 
@@ -52,7 +54,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(526, 456);
-            this.Controls.Add(this.roundedButton1);
+            this.Controls.Add(this.centeredTextBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -61,7 +63,7 @@
 
         #endregion
 
-        private YongUtility.Controls.RoundedButton roundedButton1;
+        private YongUtility.Controls.CenteredTextBox centeredTextBox1;
     }
 }
 
