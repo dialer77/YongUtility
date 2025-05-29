@@ -164,7 +164,7 @@ namespace YongUtility.Controls
             int margin = Math.Max(borderWidth, 2);
             innerButton.Location = new Point(margin, margin);
             innerButton.Size = new Size(Width - (margin * 2), Height - (margin * 2));
-            innerButton.BackColor = backgroundColor;
+            // innerButton.BackColor 설정 제거 - 마우스 이벤트에서만 처리
 
             // 둥근 사각형 경로 생성
             GraphicsPath path = GetRoundedRectanglePath(ClientRectangle, borderRadius);
@@ -185,14 +185,16 @@ namespace YongUtility.Controls
                         borderWidth / 2,
                         Width - borderWidth,
                         Height - borderWidth);
-                    GraphicsPath borderPath = GetRoundedRectanglePath(borderRect, borderRadius);
-                    g.DrawPath(pen, borderPath);
+                    using (GraphicsPath borderPath = GetRoundedRectanglePath(borderRect, borderRadius))
+                    {
+                        g.DrawPath(pen, borderPath);
+                    }
                 }
             }
 
-            // 클리핑 영역 설정 (둥근 모서리 밖의 버튼 부분 숨기기)
+            // 클리핑 영역 설정
+            Region?.Dispose();
             Region = new Region(path);
-
             path.Dispose();
         }
 
