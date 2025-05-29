@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YongUtility\YongUtility.csproj">
+      <Project>{04BADBBE-E155-43D7-8007-3544AE2BA1D3}</Project>
+      <Name>YongUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
