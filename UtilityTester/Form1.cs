@@ -21,5 +21,21 @@ namespace UtilityTester
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form test = new Form();
+            test.AllowTransparency = true;
+            test.FormBorderStyle = FormBorderStyle.None;
+            test.BackColor = Color.FromArgb(255, 250, 250, 250);
+            test.TransparencyKey = Color.FromArgb(250, 250, 250, 250);
+
+            UCTest uCTest = new UCTest();
+            uCTest.Dock = DockStyle.Fill;
+            
+            test.Controls.Add(uCTest);
+
+            test.Show();
+        }
     }
 }
